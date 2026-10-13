@@ -1,14 +1,12 @@
 
 pipeline {
     agent any
-
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
         stage('Build and Test') {
             steps {
                 bat 'mvn clean test'
@@ -19,13 +17,11 @@ pipeline {
                 }
             }
         }
-
         stage('Package') {
             steps {
                 bat 'mvn package'
             }
         }
-
         stage('Archive Artifact') {
             steps {
                 archiveArtifacts(
