@@ -2,6 +2,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven 3.9.16'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -18,7 +22,14 @@ pipeline {
             post {
                 always {
                     echo 'Publishing JUnit test reports.'
-                    junit 'course-registration-app/target/surefire-reports/TEST-*.xml'
+                    script {
+                        def reports = 'course-registration-app/target/surefire-reports/TEST-*.xml'
+                        if (fileExists('course-registration-app/target/surefire-reports')) {
+                            junit reports
+                        } else {
+                            echo 'No Surefire reports were generated; check the Maven build output above.'
+                        }
+                    }
                 }
             }
         }

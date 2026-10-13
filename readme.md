@@ -50,11 +50,11 @@ The project includes a `Jenkinsfile` at the repository root for a Jenkins Declar
 
 ### Execution Environment
 
-The pipeline targets a Windows Jenkins agent and uses Windows `bat` steps. Configure the agent with Java, Maven and Git available on `PATH`, install the Jenkins JUnit plugin, and configure Jenkins to check out this repository. The Maven commands explicitly run in `WORKSPACE`, the repository checkout root.
+The pipeline targets a Windows Jenkins agent and uses Windows `bat` steps. Configure a Maven installation named `Maven 3.9.16` under **Manage Jenkins → Tools** (or change the Jenkinsfile tool name to match the configured installation), ensure Java and Git are available to the agent, install the Jenkins JUnit plugin, and configure Jenkins to check out this repository. The Maven commands explicitly run in `WORKSPACE`, the repository checkout root.
 
 **Console evidence:** Open the build's **Console Output** in Jenkins. It should show checkout, the `Running Maven clean test from the repository root.` marker, Maven's reactor and test summary, the JUnit publishing marker, and then the package and archive markers on a successful build. If tests fail, inspect the test output and report-publishing action; the `Package` and `Archive Artifact` stages are skipped. Do not present local Maven output as a Jenkins run.
 
-**Execution status:** No Jenkins execution is claimed here. The Jenkinsfile is ready for a Windows Jenkins agent. Local verification (not Jenkins output): `mvn -B clean test` completed with 12 tests, 0 failures, 0 errors and 0 skipped; `mvn -B package` also completed successfully.
+**Execution status:** The first Jenkins run failed because Maven was not available in the Windows agent's `PATH`; no JUnit reports were generated in that run. Configure the Maven tool above and rerun. No successful Jenkins execution is claimed here. Local verification (not Jenkins output): `mvn -B clean test` completed with 12 tests, 0 failures, 0 errors and 0 skipped; `mvn -B package` also completed successfully.
 
 ## Git Evidence
 
